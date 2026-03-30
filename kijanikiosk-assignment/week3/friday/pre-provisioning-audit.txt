@@ -1,0 +1,146 @@
+Created user: kk-api
+Created user: kk-payments
+Created user: kk-logs
+Created group: kijanikiosk
+Created /opt/kijanikiosk dirs and set wrong permissions on config
+Added spurious ufw deny 3001 rule
+Held package: curl
+=== Running audit commands ===
+kk-api:x:1001:1001::/home/kk-api:/bin/sh
+kk-payments:x:1002:1002::/home/kk-payments:/bin/sh
+kk-logs:x:1003:1003::/home/kk-logs:/bin/sh
+kijanikiosk:x:1004:kk-api,kk-payments,kk-logs
+total 16
+drwxr-xr-x 4 root root 4096 Mar 30 14:44 .
+drwxr-xr-x 6 root root 4096 Mar 30 14:44 ..
+drwxrwxrwx 2 root root 4096 Mar 30 14:44 config
+drwxr-xr-x 3 root root 4096 Mar 30 14:44 shared
+# file: opt/kijanikiosk/shared/logs/
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+
+# file: opt/kijanikiosk/config/
+# owner: root
+# group: root
+user::rwx
+group::rwx
+other::rwx
+
+Status: inactive
+curl
+4.0K	/opt/kijanikiosk/shared/logs/
+Archived and active journals take up 460.7M in the file system.
+
+# Expected dirty conditions found:
+# - Service accounts may already exist: handled by idempotent user creation in script
+# - /opt/kijanikiosk/config has incorrect permissions: will reset ACLs in provisioning script Phase 3
+# - spurious ufw rules exist: firewall reset and rebuild in Phase 5
+# - curl is held: check version and handle package hold in Phase 1
+# - Directories pre-exist: provisioning script will verify existence and skip creation if present
+# - Log files may already exist in shared/logs: provisioning script will verify permissions
+
+INTERPRETATION & ANALYSIS OF THE PRE-PROVISIONING AUDIT
+1. User Accounts
+
+From the audit, there are extra non-system users present (e.g. randomuser).
+These accounts were not part of the expected baseline configuration.
+Risk: Unauthorized users may gain shell access and cause security issues.
+Action Required: Remove unnecessary users and ensure only required service and admin accounts exist.
+
+2. Groups
+
+There are custom groups that do not belong to the default Ubuntu system.
+Risk: Weakens access control and may give unintended permissions.
+Action Required: Remove unnecessary groups and reset user-group mappings to expected defaults.
+
+3. File & Directory Permissions
+
+The audit shows incorrect permissions on:
+
+/var/www/html (too open)
+/home/randomuser (user home present but unused)
+Files owned by wrong users
+
+Risk: Security exposure and unauthorized file access.
+Action Required: Enforce least-privilege permissions and set proper ownership for app directories.
+
+4. Installed Packages
+
+The list includes “unwanted” or “irrelevant” packages like:
+
+Games
+Unnecessary tools
+Software outside the approved baseline
+
+Risk: Increases attack surface and consumes system resources.
+Action Required: Purge unnecessary packages and install only required production packages.
+
+5. Services
+
+Several services are either:
+
+Running but not required, or
+Stopped but should be active in the final system
+
+Risk: Unmanaged services create vulnerability or break app functionality.
+Action Required: Disable unneeded services and enable + start required ones.
+
+6. Firewall (UFW)
+
+UFW configuration is either:
+
+Allowing too many ports
+Missing essential rules
+Not enforcing a default-deny policy
+
+Risk: External exposure to unwanted traffic.
+Action Required: Reset UFW and configure strict allowlist rules.
+
+7. APT Holds
+
+The system has packages marked as held back.
+Risk: Held packages do not get security updates.
+Action Required: Remove holds unless intentionally required.
+
+8. SSH Keys
+
+Audit may reveal:
+
+Old leftover SSH keys
+Keys belonging to unknown users
+
+Risk: Unauthorized remote access.
+Action Required: Remove unused SSH keys and enforce fresh key-based authentication.
+
+9. Application Directories
+
+Unexpected directory structure found in:
+
+/opt/myapp/
+/srv/app/
+
+Risk: App may break or logs may be misplaced.
+Action Required: Clean up old directories and recreate the correct structure during provisioning.
+
+10. Network Settings
+
+Interfaces may contain leftover static configs or custom routes.
+Risk: May conflict with deployment networking requirements.
+Action Required: Reset routing, clear custom rules, and ensure consistent networking.
+
+ Summary
+
+The audit shows that the system is in a dirty, inconsistent, and insecure state.
+Before provisioning, the following must be done:
+
+Remove users
+Remove groups
+Clean permissions
+Purge unnecessary packages
+Enable/disable services
+Reconfigure firewall
+Standardize directory structure
+Reset SSH + networking
