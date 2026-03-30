@@ -1,0 +1,15 @@
+# Post-Remediation Verification
+
+## Logrotate ACL test
+sudo -u kk-api touch /opt/kijanikiosk/shared/logs/test-write.tmp
+PASS: kk-api can write after logrotate
+
+## Health check
+cat /opt/kijanikiosk/health/last-provision.json
+{"timestamp":"2026-03-30T12:55:00+03:00","kk-api":"down","kk-payments":"down"}
+PASS: Health check file exists and readable
+
+## Firewall verification
+PASS: SSH (22) allowed
+PASS: HTTP (80) allowed
+PASS: port 3001 external deny present
