@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - group_vars/all.yml
+
+  tasks:
+    - name: Ensure systemd service directory exists
+      file:
+        path: /etc/systemd/system
+        state: directory
+
+    - name: Copy systemd service template
+      template:
+        src: "templates/{{ service_name }}.service.j2"
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+        mode: '0644'
+
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    - name: Enable and start service
+      systemd:
+        name: "{{ service_name }}"
+        enabled: yes
+        state: started

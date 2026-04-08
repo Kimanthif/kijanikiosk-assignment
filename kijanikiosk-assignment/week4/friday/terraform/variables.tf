@@ -11,6 +11,7 @@ variable "environment" {
 variable "ami_id" {
   type        = string
   description = "AMI ID for Ubuntu"
+  default     = "ami-0c2a0ede9fd7cb37c"
 }
 
 variable "instance_type" {

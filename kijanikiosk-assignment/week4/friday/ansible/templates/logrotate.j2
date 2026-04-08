@@ -1,0 +1,13 @@
+/var/log/{{ service_name }}/*.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    create 0640 ubuntu ubuntu
+    sharedscripts
+    postrotate
+        systemctl restart {{ service_name }}.service > /dev/null 2>&1 || true
+    endscript
+}

@@ -1,0 +1,2 @@
+service_name: kk-logs
+listen_port: 9000

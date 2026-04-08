@@ -1,0 +1,3 @@
+app_name: kk-app
+base_dir: /opt/kk
+log_dir: /var/log/kk

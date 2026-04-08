@@ -1,0 +1,11 @@
+[Unit]
+Description=KijaniKiosk API Service
+After=network.target
+
+[Service]
+User=ubuntu
+ExecStart=/usr/bin/python3 /home/ubuntu/kk-api/main.py --port {{ listen_port }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
