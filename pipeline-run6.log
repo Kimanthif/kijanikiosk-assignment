@@ -1,0 +1,433 @@
+=== Step 1: Terraform Apply ===
+[0m[1mInitializing the backend...[0m
+[0m[1mInitializing modules...[0m
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v6.39.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+Acquiring state lock. This may take a few moments...
+[0m[1mvar.environment[0m
+  Environment name (staging/production)
+
+  [1mEnter a value:[0m [0m
+[0m[1mvar.my_ip[0m
+  Your current public IP for SSH access (for security group)
+
+  [1mEnter a value:[0m [0m
+[0m[1mvar.region[0m
+  AWS region to deploy servers into
+
+  [1mEnter a value:[0m [0m
+[0m[1mvar.servers[0m
+  Map of server definitions
+
+  [1mEnter a value:[0m [0m
+[0m[1mvar.ssh_key_name[0m
+  Name of the SSH key pair used to access the servers
+
+  [1mEnter a value:[0m [0m
+[0m[1mvar.vpc_id[0m
+  ID of the VPC where servers will be deployed
+
+  [1mEnter a value:[0m [0m
+[0m[1mdata.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1maws_security_group.app_sg: Refreshing state... [id=sg-0c1a4ab7dd1fa349a][0m
+[0m[1mdata.aws_ami.ubuntu: Read complete after 1s [id=ami-0028809abe98af413][0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Refreshing state... [id=i-0fc6af9f5412e3f6a][0m
+[0m[1mmodule.app_servers["api"].aws_instance.this: Refreshing state... [id=i-0c2605e3c3982676a][0m
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Refreshing state... [id=i-0a7fbb70a89f684ea][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+[31m-[0m/[32m+[0m destroy and then create replacement[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.app_servers["api"].aws_instance.this[0m must be [1m[31mreplaced[0m
+[0m[31m-[0m/[32m+[0m[0m resource "aws_instance" "this" {
+      [33m~[0m[0m arn                                  = "arn:aws:ec2:eu-north-1:435392106345:instance/i-0c2605e3c3982676a" -> (known after apply)
+      [33m~[0m[0m associate_public_ip_address          = true -> (known after apply)
+      [33m~[0m[0m availability_zone                    = "eu-north-1a" -> (known after apply)
+      [33m~[0m[0m disable_api_stop                     = false -> (known after apply)
+      [33m~[0m[0m disable_api_termination              = false -> (known after apply)
+      [33m~[0m[0m ebs_optimized                        = false -> (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [31m-[0m[0m hibernation                          = false [90m-> null[0m[0m
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [33m~[0m[0m id                                   = "i-0c2605e3c3982676a" -> (known after apply)
+      [33m~[0m[0m instance_initiated_shutdown_behavior = "stop" -> (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [33m~[0m[0m instance_state                       = "running" -> (known after apply)
+      [33m~[0m[0m ipv6_address_count                   = 0 -> (known after apply)
+      [33m~[0m[0m ipv6_addresses                       = [] -> (known after apply)
+      [33m~[0m[0m key_name                             = "terraform-key" [33m->[0m[0m " terraform-key" [31m# forces replacement[0m[0m
+      [33m~[0m[0m monitoring                           = false -> (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [33m~[0m[0m placement_partition_number           = 0 -> (known after apply)
+      [33m~[0m[0m primary_network_interface_id         = "eni-08445c843f5699e94" -> (known after apply)
+      [33m~[0m[0m private_dns                          = "ip-172-31-26-171.eu-north-1.compute.internal" -> (known after apply)
+      [33m~[0m[0m private_ip                           = "172.31.26.171" -> (known after apply)
+      [33m~[0m[0m public_dns                           = "ec2-13-48-13-35.eu-north-1.compute.amazonaws.com" -> (known after apply)
+      [33m~[0m[0m public_ip                            = "13.48.13.35" -> (known after apply)
+      [33m~[0m[0m secondary_private_ips                = [] -> (known after apply)
+      [33m~[0m[0m security_groups                      = [
+          [31m-[0m[0m "production-app-sg-v2",
+        ] -> (known after apply)
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [33m~[0m[0m subnet_id                            = "subnet-02be1df8c59ea4a48" -> (known after apply)
+        tags                                 = {
+            "Name" = "api-server"
+        }
+      [33m~[0m[0m tenancy                              = "default" -> (known after apply)
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+        [90m# (9 unchanged attributes hidden)[0m[0m
+
+      [33m~[0m[0m capacity_reservation_specification (known after apply)
+      [31m-[0m[0m capacity_reservation_specification {
+          [31m-[0m[0m capacity_reservation_preference = "open" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m cpu_options (known after apply)
+      [31m-[0m[0m cpu_options {
+          [31m-[0m[0m core_count            = 1 [90m-> null[0m[0m
+          [31m-[0m[0m threads_per_core      = 2 [90m-> null[0m[0m
+            [90m# (2 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m credit_specification {
+          [31m-[0m[0m cpu_credits = "unlimited" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m ebs_block_device (known after apply)
+
+      [33m~[0m[0m enclave_options (known after apply)
+      [31m-[0m[0m enclave_options {
+          [31m-[0m[0m enabled = false [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m ephemeral_block_device (known after apply)
+
+      [33m~[0m[0m instance_market_options (known after apply)
+
+      [33m~[0m[0m maintenance_options (known after apply)
+      [31m-[0m[0m maintenance_options {
+          [31m-[0m[0m auto_recovery = "default" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m metadata_options (known after apply)
+      [31m-[0m[0m metadata_options {
+          [31m-[0m[0m http_endpoint               = "enabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_protocol_ipv6          = "disabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_put_response_hop_limit = 1 [90m-> null[0m[0m
+          [31m-[0m[0m http_tokens                 = "optional" [90m-> null[0m[0m
+          [31m-[0m[0m instance_metadata_tags      = "disabled" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m network_interface (known after apply)
+
+      [33m~[0m[0m primary_network_interface (known after apply)
+      [31m-[0m[0m primary_network_interface {
+          [31m-[0m[0m delete_on_termination = true [90m-> null[0m[0m
+          [31m-[0m[0m network_interface_id  = "eni-08445c843f5699e94" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m private_dns_name_options (known after apply)
+      [31m-[0m[0m private_dns_name_options {
+          [31m-[0m[0m enable_resource_name_dns_a_record    = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_resource_name_dns_aaaa_record = false [90m-> null[0m[0m
+          [31m-[0m[0m hostname_type                        = "ip-name" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m root_block_device {
+          [33m~[0m[0m device_name           = "/dev/sda1" -> (known after apply)
+          [33m~[0m[0m encrypted             = false -> (known after apply)
+          [33m~[0m[0m iops                  = 3000 -> (known after apply)
+          [32m+[0m[0m kms_key_id            = (known after apply)
+          [31m-[0m[0m tags                  = {} [90m-> null[0m[0m
+          [33m~[0m[0m tags_all              = {} -> (known after apply)
+          [33m~[0m[0m throughput            = 125 -> (known after apply)
+          [33m~[0m[0m volume_id             = "vol-0958ddc9657bf533b" -> (known after apply)
+            [90m# (3 unchanged attributes hidden)[0m[0m
+        }
+
+      [33m~[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1m  # module.app_servers["logs"].aws_instance.this[0m must be [1m[31mreplaced[0m
+[0m[31m-[0m/[32m+[0m[0m resource "aws_instance" "this" {
+      [33m~[0m[0m arn                                  = "arn:aws:ec2:eu-north-1:435392106345:instance/i-0a7fbb70a89f684ea" -> (known after apply)
+      [33m~[0m[0m associate_public_ip_address          = true -> (known after apply)
+      [33m~[0m[0m availability_zone                    = "eu-north-1a" -> (known after apply)
+      [33m~[0m[0m disable_api_stop                     = false -> (known after apply)
+      [33m~[0m[0m disable_api_termination              = false -> (known after apply)
+      [33m~[0m[0m ebs_optimized                        = false -> (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [31m-[0m[0m hibernation                          = false [90m-> null[0m[0m
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [33m~[0m[0m id                                   = "i-0a7fbb70a89f684ea" -> (known after apply)
+      [33m~[0m[0m instance_initiated_shutdown_behavior = "stop" -> (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [33m~[0m[0m instance_state                       = "running" -> (known after apply)
+      [33m~[0m[0m ipv6_address_count                   = 0 -> (known after apply)
+      [33m~[0m[0m ipv6_addresses                       = [] -> (known after apply)
+      [33m~[0m[0m key_name                             = "terraform-key" [33m->[0m[0m " terraform-key" [31m# forces replacement[0m[0m
+      [33m~[0m[0m monitoring                           = false -> (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [33m~[0m[0m placement_partition_number           = 0 -> (known after apply)
+      [33m~[0m[0m primary_network_interface_id         = "eni-06e875146f1780afe" -> (known after apply)
+      [33m~[0m[0m private_dns                          = "ip-172-31-23-176.eu-north-1.compute.internal" -> (known after apply)
+      [33m~[0m[0m private_ip                           = "172.31.23.176" -> (known after apply)
+      [33m~[0m[0m public_dns                           = "ec2-16-16-65-34.eu-north-1.compute.amazonaws.com" -> (known after apply)
+      [33m~[0m[0m public_ip                            = "16.16.65.34" -> (known after apply)
+      [33m~[0m[0m secondary_private_ips                = [] -> (known after apply)
+      [33m~[0m[0m security_groups                      = [
+          [31m-[0m[0m "production-app-sg-v2",
+        ] -> (known after apply)
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [33m~[0m[0m subnet_id                            = "subnet-02be1df8c59ea4a48" -> (known after apply)
+        tags                                 = {
+            "Name" = "logs-server"
+        }
+      [33m~[0m[0m tenancy                              = "default" -> (known after apply)
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+        [90m# (9 unchanged attributes hidden)[0m[0m
+
+      [33m~[0m[0m capacity_reservation_specification (known after apply)
+      [31m-[0m[0m capacity_reservation_specification {
+          [31m-[0m[0m capacity_reservation_preference = "open" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m cpu_options (known after apply)
+      [31m-[0m[0m cpu_options {
+          [31m-[0m[0m core_count            = 1 [90m-> null[0m[0m
+          [31m-[0m[0m threads_per_core      = 2 [90m-> null[0m[0m
+            [90m# (2 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m credit_specification {
+          [31m-[0m[0m cpu_credits = "unlimited" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m ebs_block_device (known after apply)
+
+      [33m~[0m[0m enclave_options (known after apply)
+      [31m-[0m[0m enclave_options {
+          [31m-[0m[0m enabled = false [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m ephemeral_block_device (known after apply)
+
+      [33m~[0m[0m instance_market_options (known after apply)
+
+      [33m~[0m[0m maintenance_options (known after apply)
+      [31m-[0m[0m maintenance_options {
+          [31m-[0m[0m auto_recovery = "default" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m metadata_options (known after apply)
+      [31m-[0m[0m metadata_options {
+          [31m-[0m[0m http_endpoint               = "enabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_protocol_ipv6          = "disabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_put_response_hop_limit = 1 [90m-> null[0m[0m
+          [31m-[0m[0m http_tokens                 = "optional" [90m-> null[0m[0m
+          [31m-[0m[0m instance_metadata_tags      = "disabled" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m network_interface (known after apply)
+
+      [33m~[0m[0m primary_network_interface (known after apply)
+      [31m-[0m[0m primary_network_interface {
+          [31m-[0m[0m delete_on_termination = true [90m-> null[0m[0m
+          [31m-[0m[0m network_interface_id  = "eni-06e875146f1780afe" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m private_dns_name_options (known after apply)
+      [31m-[0m[0m private_dns_name_options {
+          [31m-[0m[0m enable_resource_name_dns_a_record    = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_resource_name_dns_aaaa_record = false [90m-> null[0m[0m
+          [31m-[0m[0m hostname_type                        = "ip-name" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m root_block_device {
+          [33m~[0m[0m device_name           = "/dev/sda1" -> (known after apply)
+          [33m~[0m[0m encrypted             = false -> (known after apply)
+          [33m~[0m[0m iops                  = 3000 -> (known after apply)
+          [32m+[0m[0m kms_key_id            = (known after apply)
+          [31m-[0m[0m tags                  = {} [90m-> null[0m[0m
+          [33m~[0m[0m tags_all              = {} -> (known after apply)
+          [33m~[0m[0m throughput            = 125 -> (known after apply)
+          [33m~[0m[0m volume_id             = "vol-034c00e2165a56eee" -> (known after apply)
+            [90m# (3 unchanged attributes hidden)[0m[0m
+        }
+
+      [33m~[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1m  # module.app_servers["payments"].aws_instance.this[0m must be [1m[31mreplaced[0m
+[0m[31m-[0m/[32m+[0m[0m resource "aws_instance" "this" {
+      [33m~[0m[0m arn                                  = "arn:aws:ec2:eu-north-1:435392106345:instance/i-0fc6af9f5412e3f6a" -> (known after apply)
+      [33m~[0m[0m associate_public_ip_address          = true -> (known after apply)
+      [33m~[0m[0m availability_zone                    = "eu-north-1a" -> (known after apply)
+      [33m~[0m[0m disable_api_stop                     = false -> (known after apply)
+      [33m~[0m[0m disable_api_termination              = false -> (known after apply)
+      [33m~[0m[0m ebs_optimized                        = false -> (known after apply)
+      [32m+[0m[0m enable_primary_ipv6                  = (known after apply)
+      [31m-[0m[0m hibernation                          = false [90m-> null[0m[0m
+      [32m+[0m[0m host_id                              = (known after apply)
+      [32m+[0m[0m host_resource_group_arn              = (known after apply)
+      [32m+[0m[0m iam_instance_profile                 = (known after apply)
+      [33m~[0m[0m id                                   = "i-0fc6af9f5412e3f6a" -> (known after apply)
+      [33m~[0m[0m instance_initiated_shutdown_behavior = "stop" -> (known after apply)
+      [32m+[0m[0m instance_lifecycle                   = (known after apply)
+      [33m~[0m[0m instance_state                       = "running" -> (known after apply)
+      [33m~[0m[0m ipv6_address_count                   = 0 -> (known after apply)
+      [33m~[0m[0m ipv6_addresses                       = [] -> (known after apply)
+      [33m~[0m[0m key_name                             = "terraform-key" [33m->[0m[0m " terraform-key" [31m# forces replacement[0m[0m
+      [33m~[0m[0m monitoring                           = false -> (known after apply)
+      [32m+[0m[0m outpost_arn                          = (known after apply)
+      [32m+[0m[0m password_data                        = (known after apply)
+      [32m+[0m[0m placement_group                      = (known after apply)
+      [32m+[0m[0m placement_group_id                   = (known after apply)
+      [33m~[0m[0m placement_partition_number           = 0 -> (known after apply)
+      [33m~[0m[0m primary_network_interface_id         = "eni-0769672a0ac4e6173" -> (known after apply)
+      [33m~[0m[0m private_dns                          = "ip-172-31-31-213.eu-north-1.compute.internal" -> (known after apply)
+      [33m~[0m[0m private_ip                           = "172.31.31.213" -> (known after apply)
+      [33m~[0m[0m public_dns                           = "ec2-13-60-201-149.eu-north-1.compute.amazonaws.com" -> (known after apply)
+      [33m~[0m[0m public_ip                            = "13.60.201.149" -> (known after apply)
+      [33m~[0m[0m secondary_private_ips                = [] -> (known after apply)
+      [33m~[0m[0m security_groups                      = [
+          [31m-[0m[0m "production-app-sg-v2",
+        ] -> (known after apply)
+      [32m+[0m[0m spot_instance_request_id             = (known after apply)
+      [33m~[0m[0m subnet_id                            = "subnet-02be1df8c59ea4a48" -> (known after apply)
+        tags                                 = {
+            "Name" = "payments-server"
+        }
+      [33m~[0m[0m tenancy                              = "default" -> (known after apply)
+      [32m+[0m[0m user_data_base64                     = (known after apply)
+        [90m# (9 unchanged attributes hidden)[0m[0m
+
+      [33m~[0m[0m capacity_reservation_specification (known after apply)
+      [31m-[0m[0m capacity_reservation_specification {
+          [31m-[0m[0m capacity_reservation_preference = "open" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m cpu_options (known after apply)
+      [31m-[0m[0m cpu_options {
+          [31m-[0m[0m core_count            = 1 [90m-> null[0m[0m
+          [31m-[0m[0m threads_per_core      = 2 [90m-> null[0m[0m
+            [90m# (2 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m credit_specification {
+          [31m-[0m[0m cpu_credits = "unlimited" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m ebs_block_device (known after apply)
+
+      [33m~[0m[0m enclave_options (known after apply)
+      [31m-[0m[0m enclave_options {
+          [31m-[0m[0m enabled = false [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m ephemeral_block_device (known after apply)
+
+      [33m~[0m[0m instance_market_options (known after apply)
+
+      [33m~[0m[0m maintenance_options (known after apply)
+      [31m-[0m[0m maintenance_options {
+          [31m-[0m[0m auto_recovery = "default" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m metadata_options (known after apply)
+      [31m-[0m[0m metadata_options {
+          [31m-[0m[0m http_endpoint               = "enabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_protocol_ipv6          = "disabled" [90m-> null[0m[0m
+          [31m-[0m[0m http_put_response_hop_limit = 1 [90m-> null[0m[0m
+          [31m-[0m[0m http_tokens                 = "optional" [90m-> null[0m[0m
+          [31m-[0m[0m instance_metadata_tags      = "disabled" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m network_interface (known after apply)
+
+      [33m~[0m[0m primary_network_interface (known after apply)
+      [31m-[0m[0m primary_network_interface {
+          [31m-[0m[0m delete_on_termination = true [90m-> null[0m[0m
+          [31m-[0m[0m network_interface_id  = "eni-0769672a0ac4e6173" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m private_dns_name_options (known after apply)
+      [31m-[0m[0m private_dns_name_options {
+          [31m-[0m[0m enable_resource_name_dns_a_record    = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_resource_name_dns_aaaa_record = false [90m-> null[0m[0m
+          [31m-[0m[0m hostname_type                        = "ip-name" [90m-> null[0m[0m
+        }
+
+      [33m~[0m[0m root_block_device {
+          [33m~[0m[0m device_name           = "/dev/sda1" -> (known after apply)
+          [33m~[0m[0m encrypted             = false -> (known after apply)
+          [33m~[0m[0m iops                  = 3000 -> (known after apply)
+          [32m+[0m[0m kms_key_id            = (known after apply)
+          [31m-[0m[0m tags                  = {} [90m-> null[0m[0m
+          [33m~[0m[0m tags_all              = {} -> (known after apply)
+          [33m~[0m[0m throughput            = 125 -> (known after apply)
+          [33m~[0m[0m volume_id             = "vol-0ac17e0435abf2f3c" -> (known after apply)
+            [90m# (3 unchanged attributes hidden)[0m[0m
+        }
+
+      [33m~[0m[0m secondary_network_interface (known after apply)
+    }
+
+[1mPlan:[0m [0m3 to add, 0 to change, 3 to destroy.
+
+Changes to Outputs:
+  [33m~[0m[0m api_server_ip      = "13.48.13.35" -> (known after apply)
+  [33m~[0m[0m logs_server_ip     = "16.16.65.34" -> (known after apply)
+  [33m~[0m[0m payments_server_ip = "13.60.201.149" -> (known after apply)
+  [33m~[0m[0m server_public_ips  = {
+      [33m~[0m[0m api      = "13.48.13.35" -> (known after apply)
+      [33m~[0m[0m logs     = "16.16.65.34" -> (known after apply)
+      [33m~[0m[0m payments = "13.60.201.149" -> (known after apply)
+    }
+  [33m~[0m[0m ssh_commands       = {
+      [33m~[0m[0m api      = "ssh -i ~/.ssh/terraform-key.pem ubuntu@13.48.13.35" -> (known after apply)
+      [33m~[0m[0m logs     = "ssh -i ~/.ssh/terraform-key.pem ubuntu@16.16.65.34" -> (known after apply)
+      [33m~[0m[0m payments = "ssh -i ~/.ssh/terraform-key.pem ubuntu@13.60.201.149" -> (known after apply)
+    }
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Destroying... [id=i-0a7fbb70a89f684ea][0m[0m
+[0m[1mmodule.app_servers["api"].aws_instance.this: Destroying... [id=i-0c2605e3c3982676a][0m[0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Destroying... [id=i-0fc6af9f5412e3f6a][0m[0m
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Still destroying... [id=i-0a7fbb70a89f684ea, 00m10s elapsed][0m[0m
+[0m[1mmodule.app_servers["api"].aws_instance.this: Still destroying... [id=i-0c2605e3c3982676a, 00m10s elapsed][0m[0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Still destroying... [id=i-0fc6af9f5412e3f6a, 00m10s elapsed][0m[0m
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Still destroying... [id=i-0a7fbb70a89f684ea, 00m20s elapsed][0m[0m
+[0m[1mmodule.app_servers["api"].aws_instance.this: Still destroying... [id=i-0c2605e3c3982676a, 00m20s elapsed][0m[0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Still destroying... [id=i-0fc6af9f5412e3f6a, 00m20s elapsed][0m[0m
+[0m[1mmodule.app_servers["api"].aws_instance.this: Destruction complete after 21s[0m
+[0m[1mmodule.app_servers["api"].aws_instance.this: Creating...[0m[0m
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Still destroying... [id=i-0a7fbb70a89f684ea, 00m30s elapsed][0m[0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Still destroying... [id=i-0fc6af9f5412e3f6a, 00m30s elapsed][0m[0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Destruction complete after 32s[0m
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Destruction complete after 32s[0m
+[0m[1mmodule.app_servers["payments"].aws_instance.this: Creating...[0m[0m
+[0m[1mmodule.app_servers["logs"].aws_instance.this: Creating...[0m[0m
+Releasing state lock. This may take a few moments...
